@@ -85,7 +85,7 @@ import os
 @st.cache_resource
 def carrega_modelo():
     # URL do arquivo no Google Drive
-    url = "https://drive.google.com/uc?id=1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy"
+    url = "https://drive.google.com/file/d/1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy/view?usp=sharing"
     output = "modelo.pth"
 
     # Verifique se o arquivo já foi baixado
