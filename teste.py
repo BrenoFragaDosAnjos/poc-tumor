@@ -1,8 +1,3 @@
-import ctypes
-
-ctypes.cdll.LoadLibrary("D:/tcc/venv/Lib/site-packages/torch/lib/fbgemm.dll")
-#ctypes.cdll.LoadLibrary("venv/Lib/site-packages/torch/lib/fbgemm.dll")
-
 # import streamlit as st
 from PIL import Image
 import numpy as np
