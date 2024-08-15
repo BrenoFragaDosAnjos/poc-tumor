@@ -175,9 +175,13 @@ def carrega_modelo():
         interpreter = tf.lite.Interpreter(model_path=output)
         interpreter.allocate_tensors()
         return interpreter
+    except tf.errors.InvalidArgumentError as e:
+        st.error(f"Modelo inválido: {e}")
+    except tf.errors.OpError as e:
+        st.error(f"Erro de operação com o modelo: {e}")
     except Exception as e:
         st.error(f"Erro ao carregar o modelo: {e}")
-        return None
+    return None
 
 # Função para carregar e pré-processar a imagem
 def carrega_imagem():
@@ -197,22 +201,29 @@ def carrega_imagem():
 
 # Função para fazer a previsão com o modelo TensorFlow Lite
 def previsao(interpreter, image):
+    if interpreter is None:
+        st.error("O modelo não foi carregado corretamente.")
+        return
+    
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    interpreter.set_tensor(input_details[0]['index'], image)
-    interpreter.invoke()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
+    try:
+        interpreter.set_tensor(input_details[0]['index'], image)
+        interpreter.invoke()
+        output_data = interpreter.get_tensor(output_details[0]['index'])
 
-    st.write("Saída bruta do modelo:", output_data)  # Para debug
+        st.write("Saída bruta do modelo:", output_data)  # Para debug
 
-    classes = ['glioma_tumor', 'meningioma_tumor', 'no_tumor', 'pituitary_tumor']
-    df = pd.DataFrame()
-    df['classes'] = classes
-    df['probabilidades (%)'] = 100 * output_data[0]
-    fig = px.bar(df, y='classes', x='probabilidades (%)', orientation='h', text='probabilidades (%)',
-                 title='Probabilidade de Tumor Cerebral em RMI')
-    st.plotly_chart(fig)
+        classes = ['glioma_tumor', 'meningioma_tumor', 'no_tumor', 'pituitary_tumor']
+        df = pd.DataFrame()
+        df['classes'] = classes
+        df['probabilidades (%)'] = 100 * output_data[0]
+        fig = px.bar(df, y='classes', x='probabilidades (%)', orientation='h', text='probabilidades (%)',
+                     title='Probabilidade de Tumor Cerebral em RMI')
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Erro ao fazer a previsão: {e}")
 
 def main():
     st.set_page_config(page_title="Classifica Imagens de RMI", page_icon="🧠")
@@ -226,5 +237,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
