@@ -80,12 +80,17 @@ import plotly.express as px
 import streamlit as st
 import gdown
 import os
+import gdown
+import torch
+import streamlit as st
+import os
 
 # Função para carregar o modelo PyTorch
 @st.cache_resource
 def carrega_modelo():
     # URL do arquivo no Google Drive
-    url = "https://drive.google.com/file/d/1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy/view?usp=sharing"
+    file_id = "1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy"
+    url = f"https://drive.google.com/uc?id={file_id}"
     output = "modelo.pth"
 
     # Verifique se o arquivo já foi baixado
@@ -131,7 +136,6 @@ def previsao(modelo, image):
                      title='Probabilidade de Tumor Cerebral em RMI')
         st.plotly_chart(fig)
 
-# Função principal
 def main():
     st.set_page_config(page_title="Classifica Imagens de RMI", page_icon="🧠")
     st.write("# Classificação de Tumor Cerebral em imagens de RMI! 🧠")
@@ -142,7 +146,9 @@ def main():
     if image is not None:
         previsao(modelo, image)
 
-# Executa o script
 if __name__ == "__main__":
     main()
+
+
+
 
