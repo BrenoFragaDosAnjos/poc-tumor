@@ -70,6 +70,7 @@
 
 import gdown
 import torch
+import torch.nn as nn
 import streamlit as st
 import os
 from PIL import Image
