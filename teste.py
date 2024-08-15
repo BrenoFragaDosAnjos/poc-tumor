@@ -68,37 +68,46 @@
 # if __name__ == "__main__":
 #     main()
 
-# Importações
+import gdown
+import torch
+import streamlit as st
+import os
 from PIL import Image
 import numpy as np
-import torch
-import torch.nn as nn
 import torchvision.transforms as transforms
 import pandas as pd
 import io
 import plotly.express as px
-import streamlit as st
-import gdown
-import os
-import gdown
-import torch
-import streamlit as st
-import os
+
+# Definição do modelo (ajuste conforme sua arquitetura)
+class MeuModelo(nn.Module):
+    def __init__(self):
+        super(MeuModelo, self).__init__()
+        # Defina a arquitetura do modelo aqui
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1)
+        self.fc1 = nn.Linear(64*300*300, 4)  # Ajuste o tamanho do input e output conforme necessário
+
+    def forward(self, x):
+        x = torch.relu(self.conv1(x))
+        x = x.view(x.size(0), -1)  # Achata o tensor para o Fully Connected layer
+        x = self.fc1(x)
+        return x
 
 # Função para carregar o modelo PyTorch
 @st.cache_resource
 def carrega_modelo():
-    # URL do arquivo no Google Drive
     file_id = "1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy"
     url = f"https://drive.google.com/uc?id={file_id}"
     output = "modelo.pth"
 
-    # Verifique se o arquivo já foi baixado
-    if not os.path.exists(output):
-        gdown.download(url, output, quiet=False)
+    def download_file_from_google_drive(url, destination):
+        gdown.download(url, destination, quiet=False)
 
-    # Carregar o modelo
-    modelo = torch.load(output, map_location=torch.device('cpu'))
+    if not os.path.exists(output):
+        download_file_from_google_drive(url, output)
+
+    modelo = MeuModelo()  # Instancie o modelo
+    modelo.load_state_dict(torch.load(output, map_location=torch.device('cpu')))  # Carregue o estado
     modelo.eval()  # Colocar o modelo em modo de avaliação
     return modelo
 
@@ -148,6 +157,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
