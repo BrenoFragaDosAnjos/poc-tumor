@@ -1,1 +1,6 @@
-aaaaaa
+Pillow
+numpy
+torch
+torchvision
+pandas
+plotly
