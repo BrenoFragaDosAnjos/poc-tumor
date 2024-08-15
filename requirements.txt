@@ -5,3 +5,4 @@ torchvision
 pandas
 plotly
 streamlit
+gdown
