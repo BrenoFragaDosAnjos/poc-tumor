@@ -151,13 +151,17 @@ import plotly.express as px
 import os
 
 # URL do Google Drive e nome do arquivo
-file_id = "1B7gL1-Vq7fqKQy5viCNBQl-dMXAA3KEy"
+file_id = "1FreadAikK0I94Fpc_mA8_gKhAZgNRVbV"
 url = f"https://drive.google.com/uc?id={file_id}"
 output = "modelo.tflite"
 
 # Função para baixar o modelo do Google Drive
 def download_file_from_google_drive(url, destination):
-    gdown.download(url, destination, quiet=False)
+    try:
+        gdown.download(url, destination, quiet=False)
+        st.success(f"Modelo baixado com sucesso para {destination}!")
+    except Exception as e:
+        st.error(f"Erro ao baixar o arquivo: {e}")
 
 # Função para carregar o modelo TensorFlow Lite
 @st.cache_resource
@@ -167,9 +171,13 @@ def carrega_modelo():
         download_file_from_google_drive(url, output)
 
     # Carrega o modelo TensorFlow Lite
-    interpreter = tf.lite.Interpreter(model_path=output)
-    interpreter.allocate_tensors()
-    return interpreter
+    try:
+        interpreter = tf.lite.Interpreter(model_path=output)
+        interpreter.allocate_tensors()
+        return interpreter
+    except Exception as e:
+        st.error(f"Erro ao carregar o modelo: {e}")
+        return None
 
 # Função para carregar e pré-processar a imagem
 def carrega_imagem():
@@ -218,4 +226,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
