@@ -1,52 +1,52 @@
-# Brain Tumor MRI Classifier — Proof of Concept
+# Classificador de Tumor Cerebral em Ressonância Magnética — Prova de Conceito
 
-Proof of concept for classifying brain MRI images into four categories using a machine-learning model and a Streamlit interface.
+Prova de conceito para classificar imagens de ressonância magnética cerebral em quatro categorias utilizando um modelo de Machine Learning e uma interface em Streamlit.
 
 ## Classes
 
-The application works with the following output classes:
+A aplicação trabalha com as seguintes classes de saída:
 
-- glioma tumor;
-- meningioma tumor;
-- no tumor;
-- pituitary tumor.
+- glioma;
+- meningioma;
+- ausência de tumor;
+- tumor de hipófise.
 
-## Application flow
+## Fluxo da aplicação
 
 ```text
-MRI image
+Imagem de RMI
    |
    v
-Upload in Streamlit
+Upload no Streamlit
    |
    v
-Resize + normalize image
+Redimensionamento + normalização
    |
    v
-TensorFlow Lite model
+Modelo TensorFlow Lite
    |
    v
-Inference
+Inferência
    |
    v
-Class probabilities
+Probabilidades por classe
    |
    v
-Interactive Plotly chart
+Gráfico interativo com Plotly
 ```
 
-## Tech stack
+## Tecnologias utilizadas
 
 - Python
 - TensorFlow Lite
-- PyTorch experiments
+- experimentos com PyTorch
 - Streamlit
 - NumPy
 - Pandas
 - Plotly
 - Pillow
 
-## Repository structure
+## Estrutura do repositório
 
 ```text
 .
@@ -58,50 +58,50 @@ Interactive Plotly chart
 └── README.md
 ```
 
-`app.py` is the primary Streamlit application using the TensorFlow Lite inference path.
+O arquivo `app.py` é a aplicação principal em Streamlit e utiliza o fluxo de inferência com TensorFlow Lite.
 
-`teste.py` contains a PyTorch-based experimental path retained for model experimentation.
+O arquivo `teste.py` mantém uma implementação experimental em PyTorch para testes e evolução do modelo.
 
-## Running locally
+## Executando localmente
 
-Create a virtual environment and install dependencies:
+Crie um ambiente virtual:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate the environment and install:
+Ative o ambiente e instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the application:
+Execute a aplicação:
 
 ```bash
 streamlit run app.py
 ```
 
-## Model loading
+## Carregamento do modelo
 
-The Streamlit application downloads the TensorFlow Lite model when it is not available locally and then initializes a TFLite interpreter for inference.
+A aplicação baixa o modelo TensorFlow Lite quando ele não está disponível localmente e inicializa o interpretador TFLite para realizar a inferência.
 
-## Current status
+## Estado atual
 
-This repository is a **proof of concept**, not a medical device.
+Este repositório é uma **prova de conceito**, não um dispositivo médico.
 
-The model output must not be used for diagnosis, treatment decisions, or clinical decision-making.
+Os resultados do modelo não devem ser utilizados para diagnóstico, definição de tratamento ou qualquer decisão clínica.
 
-## Engineering improvements planned
+## Melhorias planejadas
 
-- separate inference, preprocessing, and UI modules;
-- include model-training documentation;
-- document dataset provenance and licensing;
-- add evaluation metrics such as precision, recall, F1-score, and confusion matrix;
-- add automated tests for preprocessing and inference;
-- containerize the application;
-- pin dependency versions for reproducibility.
+- separar inferência, pré-processamento e interface em módulos distintos;
+- documentar o processo de treinamento do modelo;
+- documentar origem e licença do dataset;
+- adicionar métricas como precisão, recall, F1-score e matriz de confusão;
+- criar testes automatizados para pré-processamento e inferência;
+- containerizar a aplicação;
+- fixar versões das dependências para melhorar a reprodutibilidade.
 
-## Portfolio value
+## Valor como projeto de portfólio
 
-The project demonstrates an applied computer-vision workflow that connects image preprocessing, model inference, a user-facing interface, and result visualization.
+O projeto demonstra um fluxo aplicado de visão computacional que conecta pré-processamento de imagens, inferência de modelo, interface para o usuário e visualização dos resultados.
